@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -77,5 +78,12 @@ class StudentServiceImplTest {
     void testDeleteStudent() {
         service.deleteStudent(1L);
         verify(repository).deleteById(1L);
+    }
+
+    @Test
+    void testGetStudentByIdNotFound() {
+        when(repository.findById(99L)).thenReturn(Optional.empty());
+        Optional<Student> result = service.getStudentById(99L);
+        assertTrue(result.isEmpty());
     }
 }
